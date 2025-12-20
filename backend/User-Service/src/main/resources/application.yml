@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: User-Service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/snapUrl
+    username: postgres
+    password: "*Prabh220300#"
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+
+jwt:
+  access:
+    secret: access-secret-key-very-long-and-secure
+    expiration: 900000        # 15 minutes (ms)
+  refresh:
+    secret: refresh-secret-key-even-more-secure
+    expiration: 2592000000    # 30 days (ms)
+
