@@ -10,34 +10,43 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "urls", indexes = {
-        @Index(name = "idx_short_url", columnList = "shortUrl"),
-        @Index(name = "idx_user_id", columnList = "userId")
-})
+@Table(
+        name = "urls",
+        indexes = {
+                @Index(name = "idx_short_url", columnList = "shortUrl"),
+                @Index(name = "idx_user_id", columnList = "userId")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_user_longurl",
+                        columnNames = {"userId", "longUrl"}
+                )
+        }
+)
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UrlEntity {
-    @Id
-    @Column(name = "id", nullable = false, updatable = false)
-    private Long id; // Snowflake ID, generated externally
 
-    @Column(name = "longUrl", nullable = false, columnDefinition = "TEXT") // to handle data integrity exception by default VARCHAR 255
+    @Id
+    @Column(nullable = false, updatable = false)
+    private Long id; // Snowflake ID
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String longUrl;
 
-    @Column(name = "shortUrl", nullable = false, unique = true, columnDefinition = "TEXT")
+    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     private String shortUrl;
 
-    @Column(name = "userId", nullable = false)
+    @Column(nullable = false)
     private UUID userId;
 
-    @Column(name = "active", nullable = false)
+    @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(name = "createdAt", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
-
 
     @PrePersist
     public void prePersist() {

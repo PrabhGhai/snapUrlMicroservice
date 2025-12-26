@@ -9,6 +9,7 @@ import com.SnapUrl.url_service.utils.SnowflakeIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,14 @@ public class UrlService {
 
     public String createUrlService(String long_url)
     {
+        UUID userId = UUID.fromString("375a904c-5565-406d-9b86-7e6917e7099f");
+
+        // This is where idempotency is implemented:
+        // Same input (user + long URL) will always return the same short URL - 26-12-2025
+        Optional<UrlEntity> existing = urlRepo.findByUserIdAndLongUrl(userId, long_url);
+        if (existing.isPresent()) {
+            return existing.get().getShortUrl(); // Return existing short URL
+        }
         long snowflakeId = idGenerator.nextId();
         String shortUrl = Base62Encoder.encode(snowflakeId);
 
@@ -28,7 +37,6 @@ public class UrlService {
         saveUrl.setId(snowflakeId);
         saveUrl.setLongUrl(long_url);
         saveUrl.setShortUrl(shortUrl);
-        UUID userId = UUID.fromString("375a904c-5565-406d-9b86-7e6917e7099f");
         saveUrl.setUserId(userId);
         saveUrl.setActive(true);
         urlRepo.save(saveUrl);
