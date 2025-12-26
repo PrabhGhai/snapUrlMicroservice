@@ -21,18 +21,23 @@ spring:
           predicates:
             - Path=/api/v1/url/**
 
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - http://localhost:5173
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders: "*"
-            allowCredentials: true
+        - id: short-url-service
+          uri: lb://URL-SERVICE
+          predicates:
+            - Path=/{shortUrl}
+
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins:
+#              - http://localhost:5173
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#            allowedHeaders: "*"
+#            allowCredentials: true
 
 
 eureka:
@@ -41,6 +46,9 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 logging:
   level:

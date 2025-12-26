@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -30,7 +31,7 @@ public class LoggingAspect {
 
         LogEvent enter = new LogEvent();
         enter.setService("user-service");
-        enter.setMessage( "➡️ ENTERING  " + className + "." + methodName + "()");
+        enter.setMessage( "Trace Id :"+ MDC.get("X-Trace-Id")+" | ➡️ ENTERING  " + className + "." + methodName + "()");
         enter.setTimestamp(System.currentTimeMillis());
         logProducer.send(enter);
 
@@ -39,7 +40,7 @@ public class LoggingAspect {
 
             LogEvent exit = new LogEvent();
             exit.setService("user-service");
-            exit.setMessage("⬅️ EXITING   " + className + "." + methodName + "()");
+            exit.setMessage("Trace Id :"+MDC.get("X-Trace-Id")+" | ⬅️ EXITING   " + className + "." + methodName + "()");
             exit.setTimestamp(System.currentTimeMillis());
             logProducer.send(exit);
 
@@ -48,7 +49,7 @@ public class LoggingAspect {
         } catch (Exception ex) {
             LogEvent error = new LogEvent();
             error.setService("user-service");
-            error.setMessage("❌ EXCEPTION in " + className + "." + methodName + "() | message = " + ex.getMessage());
+            error.setMessage("Trace Id :"+MDC.get("X-Trace-Id")+" | ❌ EXCEPTION in " + className + "." + methodName + "() | message = " + ex.getMessage());
             error.setTimestamp(System.currentTimeMillis());
             logProducer.send(error);
             throw ex;

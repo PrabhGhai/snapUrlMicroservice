@@ -32,6 +32,11 @@ logging:
 kafka:
   traceId: a8f3c1e2-9b4d-4e3a-8c1f-91a7d0e4b123
 
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
 jwt:
   access:
     secret: access-secret-key-very-long-and-secure
