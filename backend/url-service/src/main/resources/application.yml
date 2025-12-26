@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: User-Service
+    name: url-service
 
   datasource:
     url: jdbc:postgresql://localhost:5432/snapUrl
@@ -29,14 +29,6 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+
 kafka:
   traceId: a8f3c1e2-9b4d-4e3a-8c1f-91a7d0e4b123
-
-jwt:
-  access:
-    secret: access-secret-key-very-long-and-secure
-    expiration: 900000        # 15 minutes (ms)
-  refresh:
-    secret: refresh-secret-key-even-more-secure
-    expiration: 2592000000    # 30 days (ms)
-

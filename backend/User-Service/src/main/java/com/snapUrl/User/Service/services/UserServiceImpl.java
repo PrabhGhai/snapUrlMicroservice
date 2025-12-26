@@ -1,10 +1,7 @@
 package com.snapUrl.User.Service.services;
 
-import com.snapUrl.User.Service.entities.UserEntity;
 import com.snapUrl.User.Service.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

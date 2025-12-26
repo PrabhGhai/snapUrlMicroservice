@@ -1,0 +1,3 @@
+com\snapurl\logging\KafkaLoggingConfig.class
+com\snapurl\logging\LogEvent.class
+com\snapurl\logging\LogProducer.class
