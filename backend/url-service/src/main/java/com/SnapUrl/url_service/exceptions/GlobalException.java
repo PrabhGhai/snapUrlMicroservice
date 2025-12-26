@@ -22,5 +22,13 @@ public class GlobalException {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(UrlAlreadyExistException.class)
+    public ResponseEntity<?> handleUrlAlreadyExists(UrlAlreadyExistException  ex)
+    {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
+    }
+
 }
 
