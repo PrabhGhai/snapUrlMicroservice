@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Link2, User, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import axiosInstance from '../utils/axiosInstance';
 import { ClipLoader } from "react-spinners";
-import { userLoginSchema } from '../utils/zodSchemas';
+import { useAuth } from '../store/AuthContext';
+
 
 
 const LoginForm = () => {
+    const navigate = useNavigate();
+    const {login} = useAuth();
     const [inputs,setInputs] = useState({username:"",password:""});
     const [errors, setErrors] = useState({username: "",password: "",});
     const [loading, setLoading] = useState(false);
@@ -18,25 +21,22 @@ const LoginForm = () => {
         setErrors((prev) => ({...prev,[name]: "",
     }));
      }
+
+     const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const res = await login(inputs);
+
+        if (res?.errors) {
+            setErrors(res.errors);
+        }
+
+        setLoading(false);
+};
+
     
-     const login = async(e)=>{
-       e.preventDefault();
-        // ZOD validation
-       const result = userLoginSchema.safeParse(inputs);
-       if(!result.success)
-       {
-        const resErrors = {};
-        result.error.issues.forEach((issue) => {
-         resErrors[issue.path[0]] = issue.message;
-        });
-        setErrors(resErrors);
-        return;
-       }
-       
-       //hit backend
-       const res = await axiosInstance("/api/v1/auth/login",inputs);
-       console.log(res);
-     }
+     
   return (
     <motion.div className="flex items-center justify-center bg-gray-100 p-6">
         <motion.div 
@@ -59,7 +59,7 @@ const LoginForm = () => {
             Start shortening your URLs for free
           </p>
 
-          <form className="space-y-4" onSubmit={login}>
+          <form className="space-y-4" onSubmit={handleLogin}>
 
             {/* Username */}
             <div>

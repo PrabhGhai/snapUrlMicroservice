@@ -126,6 +126,7 @@ public class AuthService {
 
     }
 
+    //logout
     @Transactional
     public void logout(String refreshToken) {
         try {
@@ -133,11 +134,22 @@ public class AuthService {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(refreshToken.getBytes(StandardCharsets.UTF_8));
             String tokenHash = Base64.getEncoder().encodeToString(hash);
-            System.out.println(tokenHash);
+            //System.out.println(tokenHash);
             refreshTokenService.revokeByTokenHash(tokenHash);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("SHA-256 not available");
         }
+    }
+
+    //verify user
+    public AuthResponse verify()
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+        AuthResponse res = new AuthResponse();
+        res.setUsername(user.getUsername());
+        res.setEmail(user.getEmail());
+        return res;
     }
 
 }

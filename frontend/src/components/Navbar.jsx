@@ -2,18 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Link2, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../store/AuthContext";
 
 const Navbar = () => {
-  const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Features", path: "/#features" },
-    { name: "Pricing", path: "/#pricing" },
-  ];
-
-  const isActive = (path) => location.pathname === path;
+  const {isLoggedIn} = useAuth();
 
   return (
     <motion.nav
@@ -39,6 +31,11 @@ const Navbar = () => {
 
           {/* Auth Buttons */}
           <div className="flex items-center gap-3">
+            {isLoggedIn ? <Link to="/dashboard">
+              <button className=" p-2 rounded-lg gradient-bg hover:cursor-pointer hover:shadow-xl transition-all duration-300 flex items-center justify-center text-white">
+                Dashboard
+              </button>
+            </Link> : <>
             <Link to="/login">
               <button className="p-2 hover:text-cyan-600 hover:cursor-pointer  transition-all duration-300">
                 Log in
@@ -49,6 +46,9 @@ const Navbar = () => {
                 Sign up
               </button>
             </Link>
+            </> }
+            
+            
           </div>
         </div>
       </div>

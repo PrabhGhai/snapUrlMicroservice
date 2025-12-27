@@ -26,18 +26,18 @@ spring:
           predicates:
             - Path=/{shortUrl}
 
-#      globalcors:
-#        corsConfigurations:
-#          '[/**]':
-#            allowedOrigins:
-#              - http://localhost:5173
-#            allowedMethods:
-#              - GET
-#              - POST
-#              - PUT
-#              - DELETE
-#            allowedHeaders: "*"
-#            allowCredentials: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:5173
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+            allowCredentials: true
 
 
 eureka:
