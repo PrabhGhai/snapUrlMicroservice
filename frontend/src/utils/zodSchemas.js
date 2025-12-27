@@ -5,3 +5,8 @@ export const userSignupSchema = z.object({
    username: z.string().min(3, "Username too short"),
    password: z.string().min(6, "Password too short"),
   })
+
+export const userLoginSchema = z.object({
+   username: z.string().min(3, "Username too short"),
+   password: z.string().min(6, "Password too short"),
+  })

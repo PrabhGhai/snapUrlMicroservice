@@ -9,8 +9,6 @@ import com.SnapUrl.url_service.utils.Base62Encoder;
 import com.SnapUrl.url_service.utils.SnowflakeIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

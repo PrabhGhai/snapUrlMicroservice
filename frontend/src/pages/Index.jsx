@@ -1,8 +1,12 @@
-import React from 'react'
+import Navbar from "../components/Navbar"
+import HeroSection from "../components/HeroSection.jsx"
 
 const Index = () => {
   return (
-    <div className='bg-red-500'>Index</div>
+    <div className="min-h-screen">
+      <Navbar />
+      <HeroSection /> 
+    </div>
   )
 }
 
