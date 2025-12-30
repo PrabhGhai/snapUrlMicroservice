@@ -27,7 +27,8 @@ public class SecurityConfig  {
                 .csrf(csrf-> csrf.disable())
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req->
-                        req.requestMatchers("/api/v1/auth/**").permitAll())
+                        req.requestMatchers("/api/v1/auth/**").permitAll().
+                                requestMatchers("/api/v1/auth/verify").authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)
                 .build();

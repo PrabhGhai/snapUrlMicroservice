@@ -128,5 +128,18 @@ public class AuthController {
                 .body(Map.of("success", true, "message", "Logged out successfully"));
     }
 
+    //verify
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyUser()
+    {
+        try{
+            AuthResponse authRes = authService.verify();
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(Map.of("success", true , "username" , authRes.getUsername(), "email", authRes.getEmail()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false));
+        }
+    }
+
 }
 

@@ -14,7 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,7 +71,7 @@ public class AuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UserEntity userDetails = (UserEntity) authentication.getPrincipal();
 
             String accessToken = jwtUtils.generateAccessToken(userDetails);
             String refreshToken = jwtUtils.generateRefreshToken(userDetails);
@@ -111,7 +110,7 @@ public class AuthService {
 
         // N+1 query
         UserEntity user = token.getUser();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        com.snapUrl.User.Service.entities.UserEntity userDetails = (UserEntity) userDetailsService.loadUserByUsername(user.getUsername());
 
         // Generate new access token
         String newAccessToken = jwtUtils.generateAccessToken(userDetails);
@@ -126,6 +125,7 @@ public class AuthService {
 
     }
 
+    //logout
     @Transactional
     public void logout(String refreshToken) {
         try {
@@ -133,11 +133,22 @@ public class AuthService {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(refreshToken.getBytes(StandardCharsets.UTF_8));
             String tokenHash = Base64.getEncoder().encodeToString(hash);
-            System.out.println(tokenHash);
+            //System.out.println(tokenHash);
             refreshTokenService.revokeByTokenHash(tokenHash);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("SHA-256 not available");
         }
+    }
+
+    //verify user
+    public AuthResponse verify()
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+        AuthResponse res = new AuthResponse();
+        res.setUsername(user.getUsername());
+        res.setEmail(user.getEmail());
+        return res;
     }
 
 }

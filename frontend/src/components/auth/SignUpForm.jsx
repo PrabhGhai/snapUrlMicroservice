@@ -23,7 +23,6 @@ const SignUpForm = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // input handler
   const change = (e) => {
     const { name, value } = e.target;
 

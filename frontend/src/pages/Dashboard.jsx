@@ -1,9 +1,13 @@
-import React from 'react'
+import UseDashboardHeader from "../components/dashboard/UserDashboardHeader";
+import CreateUrlInput from "../components/dashboard/CreateUrlInput";
+import ExistingUrls from "../components/dashboard/ExistingUrls";
 
-const Dashboard = () => {
+export default function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+      <div className="gradient-hero  min-h-screen" >
+        <UseDashboardHeader />
+        <CreateUrlInput />
+        <ExistingUrls />          
+      </div>
+  );
 }
-
-export default Dashboard
