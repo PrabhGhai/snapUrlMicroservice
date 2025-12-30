@@ -1,123 +1,146 @@
-<h1>Distributed Url Shortner Microservice App - SnapUrl</h1>
+<h1>SnapUrl – Distributed URL Shortener</h1>
+
 <br>
 <img width="1676" height="798" alt="image" src="https://github.com/user-attachments/assets/4c6bf517-0b18-4772-8054-7328602a75df" />
-
-<h2>1. SnapURL – User Service (Microservice)</h2>
 <p>
-  User Authentication & Authorization Microservice for SnapURL System
+  <b>SnapUrl</b> is a scalable, microservices-based URL shortener designed to
+  demonstrate real-world backend engineering concepts such as service discovery,
+  API gateways, authentication, distributed ID generation, caching patterns,
+  and asynchronous logging using Kafka.
 </p>
 
-<h3>📌 About</h3>
+
+<h2>High-Level Architecture</h2>
+
 <p>
-  This repository contains the <b>User Service</b> of the <b>SnapURL Microservices Architecture</b>.
-  It handles <b>user authentication</b>, <b>role-based authorization</b>, and
-  <b>JWT token management</b>.
+  The system is divided into two major layers: <b>Frontend</b> and <b>Backend</b>.
+  The backend follows a microservices architecture with centralized routing,
+  authentication, service discovery, and asynchronous event-based logging.
 </p>
 
-<h3>✨ Features</h3>
+<p>
+  An architecture diagram is included in this repository for a visual overview
+  of service interactions.
+</p>
+
+<hr />
+
+<h2>Tech Stack</h2>
+
+<h3>Frontend</h3>
 <ul>
-  <li>Role-Based Authentication (<b>USER / ADMIN</b>)</li>
-  <li>JWT Authentication</li>
-  <li>Access Token & Refresh Token implementation</li>
-  <li>Stateless authentication (no server-side sessions)</li>
-  <li>Microservice-ready design</li>
+  <li>React.js</li>
+  <li>Context API (Global State Management)</li>
+  <li>Framer Motion (UI Animations)</li>
+  <li>Zod (Input Validation)</li>
 </ul>
 
-<h3>🔐 Authentication & Authorization</h3>
-<p>
-  The system supports two roles:
-</p>
-
+<h3>Backend</h3>
 <ul>
-  <li><b>USER</b> – Regular application user</li>
-  <li><b>ADMIN</b> – Administrative access</li>
+  <li>Java</li>
+  <li>Spring Boot</li>
+  <li>Spring Cloud Gateway</li>
+  <li>Eureka Server (Service Discovery)</li>
+  <li>Apache Kafka (Event Streaming)</li>
+  <li>JWT (Access & Refresh Tokens)</li>
 </ul>
 
-<p>
-  Authorization is enforced using <b>JWT claims</b> and <b>Spring Security</b>.
-</p>
-
-<h3>JWT Authentication</h3>
-<p>
-  Authentication is implemented using <b>JSON Web Tokens (JWT)</b>.
-</p>
-
-<p><b>Token Types:</b></p>
+<h3>Other</h3>
 <ul>
-  <li>
-    <b>Access Token</b>
-    <ul>
-      <li>Short-lived</li>
-      <li>Sent with every API request</li>
-      <li>Used for authentication and authorization</li>
-    </ul>
-  </li>
-  <li>
-    <b>Refresh Token</b>
-    <ul>
-      <li>Long-lived</li>
-      <li>Used to generate a new access token</li>
-      <li>Improves user experience by avoiding frequent login</li>
-    </ul>
-  </li>
+  <li>Snowflake ID Generation</li>
+  <li>Base62 Encoding</li>
 </ul>
 
-<h3>Access & Refresh Token Flow</h3>
+<hr />
+
+<h2>System Components</h2>
+
+<h3>Frontend</h3>
+<ul>
+  <li>User interface built with React.js</li>
+  <li>Handles authentication state using Context API</li>
+  <li>Client-side validation using Zod</li>
+  <li>Smooth UI transitions using Framer Motion</li>
+</ul>
+
+<h3>API Gateway</h3>
+<ul>
+  <li>Single entry point for all client requests</li>
+  <li>JWT validation and authentication</li>
+  <li>Routes requests to downstream services</li>
+</ul>
+
+<h3>Eureka Server</h3>
+<ul>
+  <li>Service registry for dynamic service discovery</li>
+  <li>Enables loose coupling between microservices</li>
+</ul>
+
+<h3>User Service</h3>
+<ul>
+  <li>User signup and login</li>
+  <li>JWT-based authentication and authorization</li>
+  <li>Access Token + Refresh Token implementation</li>
+  <li>Refresh token validity fixed at 30 days (non-rotational)</li>
+</ul>
+
+<h3>URL Service</h3>
+<ul>
+  <li>Creates short URLs from long URLs</li>
+  <li>Uses Snowflake algorithm for unique ID generation</li>
+  <li>Encodes IDs using Base62 (11-character short URLs)</li>
+  <li>Supports view, share, and delete operations</li>
+</ul>
+
+<h3>Logging & Event Processing</h3>
+<ul>
+  <li>Each service produces structured logs</li>
+  <li>Logs are published as Kafka events</li>
+  <li>A Kafka consumer processes and prints logs to the terminal</li>
+</ul>
+
+<hr />
+
+<h2>Core Features</h2>
+<ul>
+  <li>User-specific URL shortening</li>
+  <li>Distributed unique ID generation using Snowflake</li>
+  <li>Base62 encoding for compact URLs</li>
+  <li>JWT authentication with access and refresh tokens</li>
+  <li>Service discovery using Eureka</li>
+  <li>Asynchronous centralized logging using Kafka</li>
+</ul>
+
+<hr />
+
+<h2>URL Creation Flow</h2>
 <ol>
-  <li>User logs in with valid credentials</li>
-  <li>Server issues an Access Token and Refresh Token</li>
-  <li>Client sends Access Token with every request</li>
-  <li>If Access Token expires, Refresh Token is used to generate a new one</li>
-  <li>User continues without re-authentication</li>
+  <li>User submits a long URL from the frontend</li>
+  <li>Request passes through the API Gateway for authentication</li>
+  <li>URL Service generates a Snowflake ID</li>
+  <li>ID is encoded using Base62</li>
+  <li>Short URL is stored in the database</li>
+  <li>Logs are published asynchronously to Kafka</li>
 </ol>
 
-<p>
-  ✅ Stateless<br/>
-  ✅ Scalable<br/>
-  ✅ Secure
-</p>
+<hr />
 
-<hr/>
-
-<h2>2. SnapURL – URL Service (Microservice)</h2>
-<p>
-  URL Shortening Microservice for SnapURL System
-</p>
-
-<h3>📌 About</h3>
-<p>
-  The <b>URL Service</b> handles creating, storing, and managing short URLs. 
-  Each short URL is generated using the <b>Twitter Snowflake</b> ID generation algorithm and converted to <b>Base62</b>. 
-  Each long URL is unique per user.
-</p>
-
-
-<h3>✨ Features</h3>
+<h2>Future Improvements</h2>
 <ul>
-  <li>Generate short URLs from long URLs</li>
-  <li>Ensure uniqueness of short URL per user</li>
-  <li>Efficient ID generation using <b>Twitter Snowflake</b></li>
-  <li>Short URL conversion using <b>Base62 encoding</b></li>
-  <li>Microservice-ready, scalable, and fast</li>
+  <li>Implement Redis for Refresh Token and accessing Urls</li>
+  <li>Refresh token rotation strategy</li>
+  <li>Rate limiting </li>
+  <li>URL analytics and click tracking</li>
+  <li>Production-grade log persistence (ELK/Loki)</li>
 </ul>
 
-<h3>🛠️ How Short URLs Are Generated</h3>
+<hr />
+
+<h2>Project Goal</h2>
 <p>
-  To ensure uniqueness and efficiency, the service uses the following approach:
+  This project was built to understand and implement real-world distributed
+  systems concepts commonly used in large-scale backend applications.
 </p>
-
-<ul>
-  <li><b>Twitter Snowflake ID</b> – Generates a globally unique numeric ID for every URL</li>
-  <li><b>Base62 Encoding</b> – Converts the numeric ID into a short, URL-friendly string</li>
-  <li>Check per-user uniqueness – No user can create the same short URL for the same long URL twice</li>
-</ul>
-
-<h3>🔒 Security & Constraints</h3>
-<ul>
-  <li>Short URL is tied to the user who created it</li>
-  <li>Duplicate long URLs for the same user are prevented</li>
-  <li>All operations are secured via <b>User Service JWT authentication</b></li>
-</ul>
 
 
 
