@@ -18,7 +18,7 @@ import java.util.UUID;
         },
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_user_longurl",
+                        name = "uk_user_longurl", //unique user long url
                         columnNames = {"userId", "longUrl"}
                 )
         }
@@ -33,7 +33,7 @@ public class UrlEntity {
     @Column(nullable = false, updatable = false)
     private Long id; // Snowflake ID
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")   //instead of Varchar we choose TEXT to handle large data
     private String longUrl;
 
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")

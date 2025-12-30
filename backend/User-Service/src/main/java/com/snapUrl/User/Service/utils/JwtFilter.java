@@ -40,7 +40,6 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain) throws ServletException, IOException {
 
         String token = getTokenFromCookies(request);
-        System.out.println(token);
         if (token == null) {
             filterChain.doFilter(request, response);
             return;

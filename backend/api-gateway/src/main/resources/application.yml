@@ -25,19 +25,21 @@ spring:
           uri: lb://URL-SERVICE
           predicates:
             - Path=/{shortUrl}
-
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - http://localhost:5173
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-            allowedHeaders: "*"
-            allowCredentials: true
+#      globalcors:
+#        add-to-simple-url-handler-mapping: true
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins:
+#              - http://localhost:5173
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#              - OPTIONS
+#            allowedHeaders:
+#              - "*"
+#            allowCredentials: true
 
 
 eureka:
@@ -57,3 +59,8 @@ logging:
 
 kafka:
   traceId: a8f3c1e2-9b4d-4e3a-8c1f-91a7d0e4b123
+
+jwt:
+  access:
+    secret: access-secret-key-very-long-and-secure
+    expiration: 900000

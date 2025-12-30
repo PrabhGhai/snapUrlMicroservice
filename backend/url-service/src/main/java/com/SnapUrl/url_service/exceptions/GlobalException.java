@@ -30,5 +30,13 @@ public class GlobalException {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(NoSuchUrlFound.class)
+    public ResponseEntity<?> NoSuchUrlFound(NoSuchUrlFound  ex)
+    {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage());
+    }
+
 }
 

@@ -6,21 +6,27 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound.jsx";
 import{ Toaster } from 'react-hot-toast';
 import { useAuth } from "./store/AuthContext.jsx";
+import Loader from "./pages/Loader";
 const App = () => {
-  const {isLoggedIn} = useAuth();
+  const {isLoggedIn,isLoading} = useAuth();
+
+  if(isLoading)
+  {
+    return <Loader/>
+  }
   return (
     <>
      <Toaster />
       <Routes>
         <Route path="/" element={<Index />} />
          
-          {isLoggedIn ?<Route path="/dashboard" element={<Dashboard />} /> :
+          {isLoggedIn  ?<Route path="/dashboard" element={<Dashboard />} /> :
           <>
            <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           </> }
           
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />}/>
       </Routes>
     </>
   )

@@ -12,7 +12,7 @@ const UseDashboardHeader = () => {
     await logout();
   }
   return (
-    <header className="border-b fixed top-0 left-0 right-0 z-50 backdrop-blur-xs border-gray-300 px-10  ">
+    <header className="border-b fixed top-0 left-0 right-0 z-50 backdrop-blur-xs border-gray-300 px-4 lg:px-10  ">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}

@@ -1,5 +1,6 @@
 package com.snapUrl.User.Service.utils;
 
+import com.snapUrl.User.Service.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,18 +31,18 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateAccessToken(UserDetails userDetails) {
+    public String generateAccessToken(UserEntity user) {
         return generateToken(
-                userDetails.getUsername(),
+                user.getUsername(),
                 accessExpiration,
                 accessSecret,
-                Map.of("type", "ACCESS")
+                Map.of("type", "ACCESS", "uuid", user.getId(), "role", user.getRole())
         );
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
+    public String generateRefreshToken(UserEntity user) {
         return generateToken(
-                userDetails.getUsername(),
+                user.getUsername(),
                 refreshExpiration,
                 refreshSecret,
                 Map.of("type", "REFRESH")
