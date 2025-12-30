@@ -93,7 +93,6 @@ public class UrlService {
     @Transactional
     public void deleteUrl(String shortUrl) {
         int deleted = urlRepo.deleteByShortUrl(shortUrl);
-        System.out.println(deleted);
 
         if (deleted == 0) {
             throw new NoSuchUrlFound("No such url found");
